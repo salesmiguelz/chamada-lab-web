@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $randomImgs = ['bombril.png', 'nescau.png', 'redbull.jpg'];
+        $randomImgs = ['bombril.png', 'nescau.png', 'redbull.jpg', 'adidas.png', 'guarana.jpg', 'steam.png'];
 
         $selectedImg = $randomImgs[array_rand($randomImgs)];
         $users = User::all();
