@@ -1,7 +1,13 @@
 @extends('includes.navbar')
 
 @section('content')
-<div class="container">
+<div class="container mt-3">
+    <p>Oferecido por:</p>
+    <div class="img-container m-auto" style="max-width: 300px; max-height: 300px">
+        <img src="{{ asset('imgs/' . $selectedImg) }}" alt="Imagem aleatória">
+    </div>
+</div>
+<div class="container mt-3">
     <table class="table">
         <thead>
             <tr>
