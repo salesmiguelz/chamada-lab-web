@@ -9,13 +9,19 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/resources/css/app.css">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <title>Chamada</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Olá, visitante </a>
+        <a class="navbar-brand" href="#">
+            @if (!Auth::check())
+            Olá, visitante
+            @else
+            Olá, {{ Auth::user()->name }}
+            @endif
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,8 +29,16 @@
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="#">Lista de chamadas</a>
-                <a class="nav-item nav-link" href="#">Login</a>
-                <a class="nav-item nav-link" href="#">Sobre</a>
+
+                @if(!Auth::check())
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/register">Registrar</a>
+                @else
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button class="btn btn-danger">Sair</button>
+                </form>
+                @endif
             </div>
         </div>
     </nav>
