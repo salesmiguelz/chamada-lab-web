@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lesson;
 use App\Models\Roll;
 use App\Models\Student;
+use Exception;
 use Illuminate\Http\Request;
 
 class RollController extends Controller
@@ -55,8 +56,17 @@ class RollController extends Controller
      */
     public function show($id)
     {
+        try {
+            $attendances = Roll::where("lesson_id", $id)->get();
+            if ($attendances->count() == 0) {
+                throw new Exception("Essa presença não existe!");
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            dd('Erro: ' . $message);
+            exit;
+        }
         //Pegar todas as rolls daquela aula
-        $attendances = Roll::where("lesson_id", $id)->get();
 
         foreach ($attendances as $attendance) {
             $attendance->student = Student::where("id", $attendance->student_id)->get();

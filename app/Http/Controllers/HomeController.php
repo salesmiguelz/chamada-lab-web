@@ -15,6 +15,7 @@ class HomeController extends Controller
         $students = Student::all();
 
         foreach ($students as $student) {
+
             $student->presences = Roll::where("student_id", $student->id)->where("attendance", 1)->count();
             $student->absences = Roll::where("student_id", $student->id)->where("attendance", 0)->count();
 
