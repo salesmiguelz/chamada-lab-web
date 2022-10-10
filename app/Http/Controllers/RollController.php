@@ -16,14 +16,13 @@ class RollController extends Controller
      */
     public function index()
     {
-        $pageSelected = "rolls";
         $lessons = Lesson::all();
 
         foreach ($lessons as $lesson) {
             $lesson->attendances = Roll::where("lesson_id", "=", $lesson->id)->where("attendance", "=", 1)->count();
         }
 
-        return view("rolls.index", compact("lessons", "pageSelected"));
+        return view("rolls.index", compact("lessons"));
     }
 
     /**
@@ -34,9 +33,8 @@ class RollController extends Controller
     public function create()
     {
         $students = Student::all();
-        $pageSelected = "rolls";
 
-        return view("rolls.create", compact("students", "pageSelected"));
+        return view("rolls.create", compact("students"));
     }
 
     /**
@@ -59,14 +57,12 @@ class RollController extends Controller
     {
         //Pegar todas as rolls daquela aula
         $attendances = Roll::where("lesson_id", $id)->get();
-        $pageSelected = "rolls";
 
         foreach ($attendances as $attendance) {
             $attendance->student = Student::where("id", $attendance->student_id)->get();
         }
 
-        $pageSelected = "rolls";
-        return view("rolls.show", compact("attendances", "pageSelected"));
+        return view("rolls.show", compact("attendances"));
     }
 
     /**

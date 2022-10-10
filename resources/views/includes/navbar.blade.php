@@ -27,13 +27,15 @@
         </button>
         <div class="collapse navbar-collapse justify-self-end" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link {{$pageSelected == 'home' ? 'active' : ''}}" href="#">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link {{$pageSelected == 'rolls' ? 'active' : ''}}" href="/rolls">Lista de chamadas</a>
+                <a class="nav-item nav-link {{request()->route()->uri == 'home' ? 'active' : ''}}" href="#">Home <span class="sr-only">(current)</span></a>
+
 
                 @if(!Auth::check())
-                <a class="nav-item nav-link {{$pageSelected == 'login' ? 'active' : ''}}" href="/login">Login</a>
-                <a class="nav-item nav-link {{$pageSelected == 'register' ? 'active' : ''}}" href="/register">Registrar</a>
+                <a class="nav-item nav-link {{request()->route()->uri == 'login' ? 'active' : ''}}" href="/login">Login</a>
+                <a class="nav-item nav-link {{request()->route()->uri == 'register' ? 'active' : ''}}" href="/register">Registrar</a>
                 @else
+                <a class="nav-item nav-link {{request()->route()->uri == 'rolls' ? 'active' : ''}}" href="/rolls">Lista de chamadas</a>
+
                 <form action="/logout" method="POST">
                     @csrf
                     <button class="btn btn-danger">Sair</button>

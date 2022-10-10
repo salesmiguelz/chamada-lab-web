@@ -7,19 +7,21 @@
             <label for="date">Data</label>
             <input type="date" class="form-control" id="date" name="date">
         </div>
+        @foreach($students as $student)
+
         <div class="form-group">
-            @foreach($students as $student)
             <p>{{$student->name}}</p>
             <div class="custom-control custom-radio">
-                <input type="radio" name="attendance{{$student->id}}" class="custom-control-input">
+                <input type="radio" name="attendance" id="presente" class="custom-control-input" value="1">
                 <label class="custom-control-label" for="customRadio1">Presente</label>
             </div>
             <div class="custom-control custom-radio">
-                <input type="radio" name="{{$student->id}}" class="custom-control-input">
+                <input type="radio" name="attendance" id="ausente" class="custom-control-input" value="0">
                 <label class="custom-control-label" for="customRadio2">Ausente</label>
             </div>
-            @endforeach
         </div>
+        @endforeach
+
     </form>
     <button class="btn btn-primary">Enviar</button>
 </div>
