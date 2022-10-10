@@ -15,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/home">
             @if (!Auth::check())
             Olá, visitante
             @else
@@ -27,12 +27,12 @@
         </button>
         <div class="collapse navbar-collapse justify-self-end" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">Lista de chamadas</a>
+                <a class="nav-item nav-link {{$pageSelected == 'home' ? 'active' : ''}}" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link {{$pageSelected == 'rolls' ? 'active' : ''}}" href="/rolls">Lista de chamadas</a>
 
                 @if(!Auth::check())
-                <a class="nav-item nav-link" href="/login">Login</a>
-                <a class="nav-item nav-link" href="/register">Registrar</a>
+                <a class="nav-item nav-link {{$pageSelected == 'login' ? 'active' : ''}}" href="/login">Login</a>
+                <a class="nav-item nav-link {{$pageSelected == 'register' ? 'active' : ''}}" href="/register">Registrar</a>
                 @else
                 <form action="/logout" method="POST">
                     @csrf
