@@ -46,6 +46,24 @@ class RollController extends Controller
      */
     public function store(Request $request)
     {
+        $lessons = Lesson::where("date", $request->date)->count();
+        if (!$lessons) {
+            Lesson::insert([
+                "date" => $request->date
+            ]);
+
+            for ($i = 1; $i <= count($request->a); $i++) {
+                Roll::insert([
+                    "student_id" => $i,
+                    "lesson_id" => Lesson::where("date", $request->date)->first()->id,
+                    "attendance" => $request->a[$i] == "p" ? 1 : 0
+                ]);
+            }
+
+            return redirect()->route("rolls.index");
+        } else {
+            return redirect()->route("rolls.create")->withErrors("Já foi feita a listagem de presença para a aula dessa data");
+        }
     }
 
     /**
