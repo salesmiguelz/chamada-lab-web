@@ -22,7 +22,7 @@ class HomeController extends Controller
             if (($student->presences + $student->absences) == 0) {
                 $student->frequency = 0;
             } else {
-                $student->frequency = $student->presences / ($student->presences + $student->absences) * 100;
+                $student->frequency = ceil($student->presences / ($student->presences + $student->absences) * 100);
             }
         }
         return view('home.home', compact('students', 'selectedImg'));

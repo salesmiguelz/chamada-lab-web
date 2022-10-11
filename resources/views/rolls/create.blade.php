@@ -31,7 +31,7 @@
             </div>
         </div>
         @endforeach
-        <button class="btn btn-primary">Enviar</button>
+        <button class="btn btn-primary mt-4">Enviar</button>
 
     </form>
 </div>

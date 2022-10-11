@@ -20,12 +20,23 @@
             @foreach($lessons as $lesson)
             <tr>
                 <th scope=" row">{{$lesson->id}}</th>
-                <td>{{Carbon\Carbon::parse($lesson->date)->format('d/m/y') }}</td>
-                <td>{{$lesson->attendances }}</td>
-                <td>
+                <td width="30%">{{Carbon\Carbon::parse($lesson->date)->format('d/m/y') }}</td>
+                <td width="30%">{{$lesson->attendances }}</td>
+                <td width="30%">
                     <a class="btn btn-success" href="rolls/{{$lesson->id}}">
                         Ver
                     </a>
+                    <a class="btn btn-info" href="{{route('rolls.edit', $lesson->id)}}">
+                        Editar
+                    </a>
+                    <form method="post" action="{{route('rolls.destroy', $lesson->id)}}" style="display: inline">
+                        @method('DELETE')
+                        @csrf
+                        <button class="btn btn-danger">
+                            Deletar
+                        </button>
+                    </form>
+
                 </td>
             </tr>
             @endforeach

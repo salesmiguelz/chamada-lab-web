@@ -101,7 +101,20 @@ class RollController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $attendances = Roll::where("lesson_id", $id)->get();
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            dd('Erro: ' . $message);
+            exit;
+        }
+
+        foreach ($attendances as $attendance) {
+            $attendance->student = Student::where("id", $attendance->student_id)->get();
+        }
+
+        $lessonId = $id;
+        return view("rolls.edit", compact("attendances", "lessonId"));
     }
 
     /**
@@ -113,7 +126,12 @@ class RollController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        for ($i = 1; $i <= count($request->a); $i++) {
+            Roll::where("student_id", $i)->where("lesson_id", $id)->update([
+                "attendance" => $request->a[$i] == "p" ? 1 : 0
+            ]);
+        }
+        return redirect()->route("rolls.index");
     }
 
     /**
@@ -124,6 +142,8 @@ class RollController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Roll::where("lesson_id", $id)->delete();
+        Lesson::where("id", $id)->delete();
+        return redirect()->route("rolls.index");
     }
 }
