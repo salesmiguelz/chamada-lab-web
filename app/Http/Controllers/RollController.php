@@ -102,19 +102,23 @@ class RollController extends Controller
     public function edit($id)
     {
         try {
-            $attendances = Roll::where("lesson_id", $id)->get();
+            $lesson = Lesson::where("id", $id)->count();
+            if ($lesson) {
+                $attendances = Roll::where("lesson_id", $id)->get();
+                foreach ($attendances as $attendance) {
+                    $attendance->student = Student::where("id", $attendance->student_id)->get();
+                }
+
+                $lessonId = $id;
+                return view("rolls.edit", compact("attendances", "lessonId"));
+            } else {
+                throw new Exception("Essa chamada não existe!");
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
             dd('Erro: ' . $message);
             exit;
         }
-
-        foreach ($attendances as $attendance) {
-            $attendance->student = Student::where("id", $attendance->student_id)->get();
-        }
-
-        $lessonId = $id;
-        return view("rolls.edit", compact("attendances", "lessonId"));
     }
 
     /**
@@ -142,8 +146,19 @@ class RollController extends Controller
      */
     public function destroy($id)
     {
-        Roll::where("lesson_id", $id)->delete();
-        Lesson::where("id", $id)->delete();
-        return redirect()->route("rolls.index");
+        try {
+            $lesson = Lesson::where("id", $id)->count();
+            if ($lesson) {
+                Roll::where("lesson_id", $id)->delete();
+                Lesson::where("id", $id)->delete();
+                return redirect()->route("rolls.index");
+            } else {
+                throw new Exception("Essa chamada não existe!");
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            dd('Erro: ' . $message);
+            exit;
+        }
     }
 }
